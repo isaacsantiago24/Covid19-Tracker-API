@@ -6,11 +6,10 @@ import axios from "axios";
 import Columns from "react-columns";
 import Form from "react-bootstrap/form";
 
-// import './App.css';
-
 function App() {
-  const [latest, setLatest] = useState([]); //array format
+  const [latest, setLatest] = useState([]);
   const [results, setResults] = useState([]);
+  //search country
   const [searchCountries, setSearchCountries] = useState("");
 
   useEffect(() => {
@@ -34,6 +33,7 @@ function App() {
   const date = new Date(parseInt(latest.updated));
   const lastUpdated = date.toString(); //convert to a string
 
+  //filtering out country
   const filterCountries = results.filter((item) => {
     return searchCountries !== ""
       ? item.country.includes(searchCountries)
@@ -48,18 +48,19 @@ function App() {
         bg="light"
         text="dark"
         className="text-center"
-        style={{ margin: "10px" }}
+        style={{ margin: "22px" }}
       >
         <Card.Img variant="top" src={data.countryInfo.flag} />
         <Card.Body>
           <Card.Title>{data.country}</Card.Title>
-          <Card.Text>Cases {data.cases}</Card.Text>
-          <Card.Text>Deaths {data.deaths}</Card.Text>
-          <Card.Text>Recovered {data.recovered}</Card.Text>
-          <Card.Text>Today's cases {data.todayCases}</Card.Text>
-          <Card.Text>Today's deaths {data.todayDeaths}</Card.Text>
-          <Card.Text>Active {data.active}</Card.Text>
-          <Card.Text>Critical {data.critical}</Card.Text>
+          <Card.Text>Cases: {data.cases}</Card.Text>
+          <Card.Text>Deaths: {data.deaths}</Card.Text>
+          <Card.Text>Recovered: {data.recovered}</Card.Text>
+          <Card.Text>Today's cases: {data.todayCases}</Card.Text>
+          <Card.Text>Today's deaths: {data.todayDeaths}</Card.Text>
+          <Card.Text>Active: {data.active}</Card.Text>
+          <Card.Text>Population: {data.population}</Card.Text>
+          <Card.Text>Critical: {data.critical}</Card.Text>
         </Card.Body>
       </Card>
     );
@@ -83,10 +84,10 @@ function App() {
       <br />
       <CardDeck>
         <Card
-          bg="secondary"
+          bg="dark"
           text="white"
           className="text-center"
-          style={{ margin: "12px" }}
+          style={{ margin: "20px" }}
         >
           <Card.Body>
             <Card.Title>Cases</Card.Title>
@@ -101,7 +102,7 @@ function App() {
           bg="danger"
           text="white"
           className="text-center"
-          style={{ margin: "12px" }}
+          style={{ margin: "20px" }}
         >
           <Card.Body>
             <Card.Title>Death</Card.Title>
@@ -116,7 +117,7 @@ function App() {
           bg="success"
           text="white"
           className="text-center"
-          style={{ margin: "12px" }}
+          style={{ margin: "20px" }}
         >
           <Card.Body>
             <Card.Title>Recovered</Card.Title>
@@ -128,13 +129,17 @@ function App() {
         </Card>
       </CardDeck>
       <br></br>
-
+      {/* SEARCH BAR */}
       <Form>
         <Form.Group controlId="formGroupSearch">
           <Form.Control
             type="text"
-            placeholder="Search a country"
-            onChange={(e) => setSearchCountries(e.target.value)}
+            placeholder="Search"
+            onChange={(e) =>
+              setSearchCountries(
+                e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1)
+              )
+            }
           />
         </Form.Group>
       </Form>
