@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import Columns from "react-columns";
 import Form from "react-bootstrap/form";
+import moment from "moment";
 
 function App() {
   const [latest, setLatest] = useState([]);
@@ -35,9 +36,7 @@ function App() {
 
   //filtering out country
   const filterCountries = results.filter((item) => {
-    return searchCountries !== ""
-      ? item.country.includes(searchCountries)
-      : item;
+    return item.country.toLowerCase().includes(searchCountries.toLowerCase());
   });
 
   const countries = filterCountries.map((data, i) => {
@@ -45,8 +44,8 @@ function App() {
     return (
       <Card
         key={i}
-        bg="light"
-        text="dark"
+        bg="secondary"
+        text="white"
         className="text-center"
         style={{ margin: "22px" }}
       >
@@ -56,8 +55,8 @@ function App() {
           <Card.Text>Cases: {data.cases}</Card.Text>
           <Card.Text>Deaths: {data.deaths}</Card.Text>
           <Card.Text>Recovered: {data.recovered}</Card.Text>
-          <Card.Text>Today's cases: {data.todayCases}</Card.Text>
-          <Card.Text>Today's deaths: {data.todayDeaths}</Card.Text>
+          {/* <Card.Text>Today's cases: {data.todayCases}</Card.Text>
+          <Card.Text>Today's deaths: {data.todayDeaths}</Card.Text> */}
           <Card.Text>Active: {data.active}</Card.Text>
           <Card.Text>Population: {data.population}</Card.Text>
           <Card.Text>Critical: {data.critical}</Card.Text>
@@ -78,7 +77,7 @@ function App() {
   ];
 
   return (
-    <div>
+    <div style={{ background: "#ccdce9" }}>
       <br />
       <h2 style={{ textAlign: "center" }}> Covid-19 Live Stats</h2>
       <br />
@@ -87,14 +86,14 @@ function App() {
           bg="dark"
           text="white"
           className="text-center"
-          style={{ margin: "20px" }}
+          style={{ margin: "30px" }}
         >
           <Card.Body>
             <Card.Title>Cases</Card.Title>
             <Card.Text>{latest.cases}</Card.Text>
           </Card.Body>
           <Card.Footer>
-            <small>Last updated {lastUpdated}</small>
+            <small>Last updated {moment(lastUpdated).calendar()}</small>
           </Card.Footer>
         </Card>
 
@@ -102,14 +101,14 @@ function App() {
           bg="danger"
           text="white"
           className="text-center"
-          style={{ margin: "20px" }}
+          style={{ margin: "30px" }}
         >
           <Card.Body>
             <Card.Title>Death</Card.Title>
             <Card.Text>{latest.deaths}</Card.Text>
           </Card.Body>
           <Card.Footer>
-            <small>Last updated {lastUpdated}</small>
+            <small>Last updated {moment(lastUpdated).calendar()}</small>
           </Card.Footer>
         </Card>
 
@@ -117,14 +116,14 @@ function App() {
           bg="success"
           text="white"
           className="text-center"
-          style={{ margin: "20px" }}
+          style={{ margin: "30px" }}
         >
           <Card.Body>
             <Card.Title>Recovered</Card.Title>
             <Card.Text>{latest.recovered}</Card.Text>
           </Card.Body>
           <Card.Footer>
-            <small>Last updated {lastUpdated}</small>
+            <small>Last updated {moment(lastUpdated).calendar()}</small>
           </Card.Footer>
         </Card>
       </CardDeck>
@@ -134,12 +133,8 @@ function App() {
         <Form.Group controlId="formGroupSearch">
           <Form.Control
             type="text"
-            placeholder="Search"
-            onChange={(e) =>
-              setSearchCountries(
-                e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1)
-              )
-            }
+            placeholder="Search a country"
+            onChange={(e) => setSearchCountries(e.target.value)}
           />
         </Form.Group>
       </Form>
